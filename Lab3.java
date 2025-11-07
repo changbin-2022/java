@@ -1,26 +1,18 @@
 import java.util.Arrays;
 
-/**
- * Main class that demonstrates working with the Furniture class.
- * Tasks performed:
- * - Create an array of Furniture objects
- * - Sort the array: first field ascending, second field descending
- * - Search for an identical object in the array after sorting
- * - Display results in console
- *
- * @author Varvara Kalenichenko
- * @version 1.0
- */
+//Варіант 7
+// Визначити клас меблі, який складається як мінімум з 5-и полів
+
 public class Lab3 {
 
     /**
-     * Main method that launches the program.
+     * Основний метод програми
      *
-     * @param args command-line arguments
+     * @param args аргументи командного рядка
      */
     public static void main(String[] args) {
 
-        // Create an array of Furniture objects with predefined values
+        // створюємо масив об’єктів Furniture із наперед заданими значеннями
         Furniture[] furnitureArray = new Furniture[]{
                 new Furniture("Chair", "Wood", 50.0, 7.5, 150.0),
                 new Furniture("Table", "Metal", 120.0, 15.0, 300.0),
@@ -29,33 +21,37 @@ public class Lab3 {
                 new Furniture("Chair", "Wood", 50.0, 7.0, 160.0)
         };
 
+        // виводимо початковий масив
         System.out.println("Original array:");
         printArray(furnitureArray);
 
-        // Sort: by price ascending, by weight descending when price is equal
+        // сортуємо масив за ціною за зростанням, а при рівних цінах - за вагою за спаданням
         Arrays.sort(furnitureArray);
 
+        // виводимо відсортований масив
         System.out.println("\nSorted array:");
         printArray(furnitureArray);
 
-        // Find object identical to the sample
+        // створюємо об’єкт, який будемо шукати у масиві
         Furniture sample = new Furniture("Chair", "Wood", 50.0, 7.5, 150.0);
         boolean found = false;
 
+        // перебираємо всі об’єкти масиву та перевіряємо, чи є ідентичний елемент
         for (Furniture item : furnitureArray) {
             if (item.equals(sample)) {
                 found = true;
-                break;
+                break; // якщо знайдено - припиняємо пошук
             }
         }
 
+        // виводимо результат пошуку
         System.out.println("\nSearch result: " + (found ? "Object found!" : "Object NOT found!"));
     }
 
     /**
-     * Prints all elements of furniture array.
+     * Метод для виведення всіх елементів масиву меблів у консоль
      *
-     * @param array array of Furniture objects to print
+     * @param array масив об’єктів Furniture
      */
     private static void printArray(Furniture[] array) {
         for (Furniture furniture : array) {
@@ -65,25 +61,26 @@ public class Lab3 {
 }
 
 /**
- * Represents a piece of furniture with 5 main characteristics.
- * Implements Comparable for sorting logic.
+ * Клас Furniture (Меблі) - описує об’єкт меблів із п’ятьма характеристиками
+ * Реалізує інтерфейс Comparable для можливості сортування
  */
 class Furniture implements Comparable<Furniture> {
 
-    private String name;
-    private String material;
-    private double price;
-    private double weight;
-    private double height;
+    // поля класу
+    private String name; // назва меблів
+    private String material; // матеріал
+    private double price; // ціна
+    private double weight; // вага
+    private double height; // висота
 
     /**
-     * Constructor for Furniture class.
+     * Конструктор класу Furniture
      *
-     * @param name     furniture name
-     * @param material furniture material
-     * @param price    furniture price
-     * @param weight   furniture weight
-     * @param height   furniture height
+     * @param name     назва меблів
+     * @param material матеріал виготовлення
+     * @param price    ціна
+     * @param weight   вага
+     * @param height   висота
      */
     public Furniture(String name, String material, double price, double weight, double height) {
         this.name = name;
@@ -94,33 +91,35 @@ class Furniture implements Comparable<Furniture> {
     }
 
     /**
-     * Compares objects by price ascending, then by weight descending.
+     * Реалізація методу compareTo() для стандартного сортування
      *
-     * @param other other Furniture object
-     * @return comparison result integer
+     * @param other інший об’єкт Furniture для порівняння
+     * @return результат порівняння (від’ємне, нуль або додатне число)
      */
     @Override
     public int compareTo(Furniture other) {
         int priceCompare = Double.compare(this.price, other.price);
 
         if (priceCompare == 0) {
+            // якщо ціни рівні — порівнюємо вагу за спаданням
             return Double.compare(other.weight, this.weight);
         }
-        return priceCompare;
+        return priceCompare; // інакше повертаємо результат порівняння цін
     }
 
-    /**
-     * Checks full equality of furniture objects.
+     /**
+     * Перевизначений метод equals() — перевіряє повну рівність двох об’єктів
      *
-     * @param obj compared object
-     * @return true if equal, false otherwise
+     * @param obj об’єкт для порівняння
+     * @return true — якщо об’єкти рівні за всіма полями, false — інакше
      */
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) return true; // якщо це той самий об’єкт
+        if (obj == null || getClass() != obj.getClass()) return false; // якщо різні класи — не рівні
 
         Furniture other = (Furniture) obj;
+        // порівнюємо всі поля
         return name.equals(other.name)
                 && material.equals(other.material)
                 && price == other.price
@@ -129,9 +128,9 @@ class Furniture implements Comparable<Furniture> {
     }
 
     /**
-     * Returns furniture details as a string.
+     * Перевизначений метод toString() для зручного виведення інформації про меблі
      *
-     * @return formatted object info
+     * @return текстове представлення об’єкта
      */
     @Override
     public String toString() {
